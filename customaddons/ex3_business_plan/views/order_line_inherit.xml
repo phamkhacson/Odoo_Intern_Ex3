@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+        <record id="add_button_to_order_view_inherit" model="ir.ui.view">
+            <field name="name">add.button.to.order.view.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="business_plan" string="Business Plan"/>
+                    <button name="check_plan" type="object" string="Check Plan" class="btn-primary"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="create_business_plan" type="object" string="Create business plan"
+                            class="btn-primary"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

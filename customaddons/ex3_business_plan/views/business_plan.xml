@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <data>
+
+        <!--        business tree view-->
+        <record id="business_plan_tree_view" model="ir.ui.view">
+            <field name="name">business.plan.tree.view</field>
+            <field name="model">plan.sale.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="plan_status" string="Status" force_save="1"/>
+                    <field name="name" string="Name"/>
+                    <field name="order_ids" string="Order Id" force_save="1"/>
+                    <field name="plan_info" string="Plan Information"/>
+                    <field name="approver" string="Approvers"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--        business_plan_form-->
+        <record id="create_business_plan_form" model="ir.ui.view">
+            <field name="name">create.business.plan.form</field>
+            <field name="model">plan.sale.order</field>
+            <field name="arch" type="xml">
+                <form string="New business plan">
+                    <sheet>
+                        <header>
+                            <field name="plan_status" widget="statusbar" statusbar_visible="new,sent,approved,refuse"/>
+                        </header>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="order_ids" string="Order Id" force_save="1"/>
+                            <field name="plan_info" string="Plan Information"/>
+                        </group>
+                        <group>
+                            <field name="approver" string="Approvers">
+                                <tree>
+                                    <field name="approver"/>
+                                    <field name="is_user"/>
+                                    <button string='Approve' name="approve_plan" type="object" class="btn-primary"
+                                            attrs="{'invisible': ['|',  ('is_user', '=', False ), ('approve_status', '!=', 'not_approved_yet')]}"/>
+                                    <button string='Refuse' name="refuse_plan" type="object" class="btn-secondary"
+                                            attrs="{'invisible': ['|', ('is_user', '=', False ), ('approve_status', '!=', 'not_approved_yet')]}"/>
+                                    <field name="approve_status" string="Status"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <footer>
+                                <button string='Send' name="new_business_plan" type="object" class="btn-primary"
+                                        attrs="{'invisible': [('plan_status', '!=', 'new')]}"/>
+                                <button string='Save' name="save_business_plan" type="object" class="btn-primary"
+                                        attrs="{'invisible': [('plan_status', '=', 'new')]}"/>
+                            </footer>
+                        </group>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids"/>
+                            <field name="activity_ids"/>
+                            <field name="message_ids"/>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="manage_business_plan_action" model="ir.actions.act_window">
+            <field name="name">Business Plan</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">plan.sale.order</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smg_face">
+                    Create your first Business Plan!
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="business_plan"
+                  name="Business Plan"
+                  parent="sale.sale_menu_root"
+                  action="manage_business_plan_action"
+                  groups="sales_team.group_sale_salesman"
+                  sequence="10"/>
+    </data>
+</odoo>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="approver_form" model="ir.ui.view">
+        <field name="name">approver.form</field>
+        <field name="model">plan.approve</field>
+        <field name="arch" type="xml">
+            <form string="Add Approver">
+                <sheet>
+                    <field name="approver" string="Approver" force_save="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
